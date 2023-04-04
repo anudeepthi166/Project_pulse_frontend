@@ -1,0 +1,18 @@
+.navigation-bar {
+  background-color: #50c878;
+  /* #a07855ff; */
+}
+
+.nav .nav-bar {
+  background-color: #2e8b57;
+  color: black;
+}
+
+.nav a.active {
+  color: #fff;
+  background-color: #2e8b57;
+}
+
+.nav a.inactive {
+  color: #000;
+}
