@@ -1,0 +1,17 @@
+.header {
+  background-color: #50c878;
+}
+.nav-bar {
+  color: #fff;
+}
+
+.nav a.active {
+  color: #fff;
+  border-radius: 10%;
+  border: none;
+  background-color: #2e8b57;
+}
+
+.nav a.inactive {
+  color: #000;
+}
