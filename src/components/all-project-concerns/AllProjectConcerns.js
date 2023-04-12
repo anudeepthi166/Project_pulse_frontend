@@ -7,6 +7,7 @@ import Table from "react-bootstrap/Table";
 import "./AllProjectConcerns.css";
 
 function AllProjectConcerns() {
+  // state
   let { userObj } = useSelector((state) => state.login);
   let navigate = useNavigate();
   let [error, setError] = useState("");
@@ -22,7 +23,9 @@ function AllProjectConcerns() {
     }
     try {
       let response;
+      // admin user
       if (userObj.role === "adminUser") {
+        // api call
         response = await axios.get(
           `http://localhost:4000/Pulse/admin/${userObj.email}/concerns`,
           { headers: { Authorization: `Bearer ${token}` } }
@@ -30,6 +33,7 @@ function AllProjectConcerns() {
       }
       // gdo head
       else if (userObj.role === "gdoHead") {
+        // api call
         response = await axios.get(
           `http://localhost:4000/pulse/gdoHead/${userObj.email}/concerns`,
           { headers: { Authorization: `Bearer ${token}` } }
@@ -56,12 +60,14 @@ function AllProjectConcerns() {
         <p className="text-center concern-heading ">Projects Concerns </p>
         <div className="row mx-auto">
           {" "}
+          {/* spoinners */}
           {!concerns.length && getData === false && (
             <div className="spinner-border text-success mx-auto" role="status">
               <span className="sr-only"></span>
             </div>
           )}
         </div>
+        {/* error messages */}
         <div>{error && <p className="text-danger text-center">{error}</p>}</div>
         {!concerns.length && getData && (
           <p className="text-danger text-center fw-bold">No Concerns Raised</p>
@@ -69,7 +75,9 @@ function AllProjectConcerns() {
         {concerns.length !== 0 && (
           <div className="row">
             <div className="">
+              {/* concerns table */}
               <Table responsive striped bordered hover className="text-center">
+                {/* table head */}
                 <thead className="concerns-heading">
                   <tr>
                     {" "}
@@ -84,6 +92,7 @@ function AllProjectConcerns() {
                     <th>Mitigated Date</th>
                   </tr>
                 </thead>
+                {/* table body */}
                 <tbody>
                   {concerns.length &&
                     concerns.map((projectConcernObj, index) => {

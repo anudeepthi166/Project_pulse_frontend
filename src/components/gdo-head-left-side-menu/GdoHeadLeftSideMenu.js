@@ -5,7 +5,9 @@ function GdoHeadLeftSideMenu() {
   return (
     <div className="left-side-menu pt-3" style={{ minHeight: "100vh" }}>
       <div>
+        {/* side menu */}
         <ul className="nav  flex-column">
+          {/* adding team */}
           <li className="nav-item">
             <NavLink
               className={({ isActive }) =>
@@ -16,6 +18,7 @@ function GdoHeadLeftSideMenu() {
               Add Team <i className="bi bi-person-add"></i>
             </NavLink>
           </li>
+          {/* Portfolio Dashboard */}
           <li className="nav-item">
             <NavLink
               className={({ isActive }) =>
@@ -26,6 +29,7 @@ function GdoHeadLeftSideMenu() {
               Dashboard
             </NavLink>
           </li>
+          {/* resource request*/}
           <li className="nav-item">
             <NavLink
               className={({ isActive }) =>
@@ -36,6 +40,7 @@ function GdoHeadLeftSideMenu() {
               Resource Requests
             </NavLink>
           </li>
+          {/* project concerns */}
           <li className="nav-item">
             <NavLink
               className={({ isActive }) =>
@@ -46,6 +51,7 @@ function GdoHeadLeftSideMenu() {
               Project Concerns
             </NavLink>
           </li>
+          {/*  Raise Resource Requests */}
           <li className="nav-item">
             <NavLink
               className={({ isActive }) =>

@@ -26,6 +26,7 @@ function AddTeam() {
       //get token
       let token = sessionStorage.getItem("token");
 
+      // api call
       let response = await axios.post(
         `http://localhost:4000/pulse/gdoHead/${userObj.email}/teamMembers`,
         teamObj,
@@ -33,12 +34,14 @@ function AddTeam() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-
+      // successfully created
       if (response.status === 201) {
         setMessage(response.data.message);
         setError("");
         reset();
-      } else {
+      }
+      // not created
+      else {
         throw new Error(response.data.message);
       }
     } catch (err) {
@@ -46,9 +49,11 @@ function AddTeam() {
     }
   };
   return (
+    // component
     <div>
       <div className="row conatiner mb-5">
         <p className="text-center team-head mt-3">Adding Team</p>
+        {/* error AND messages */}
         {error && <p className="text-center text-danger fw-bold">{error}</p>}
         {message && (
           <p className="text-center text-success fw-bold">{message}</p>

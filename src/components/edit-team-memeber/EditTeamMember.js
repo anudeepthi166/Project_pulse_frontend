@@ -73,7 +73,7 @@ function EditTeamMember() {
     }
   };
 
-  //useEffect
+  //setting values to form by using useEffect
   useEffect(() => {
     setValue("email", state.email);
     setValue("projectId", state.projectId);

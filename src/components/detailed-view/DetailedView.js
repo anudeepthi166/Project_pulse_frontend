@@ -11,6 +11,7 @@ import "./DetailedView.css";
 import Accordion from "react-bootstrap/Accordion";
 
 function DetailedView() {
+  // state
   let { state } = useLocation();
   let [error, setError] = useState("");
   let [getData, setGetData] = useState(false);
@@ -50,6 +51,7 @@ function DetailedView() {
       }
 
       setGetData(true);
+      // setting details,updated,concerns,teamcomposition of project
       if (projectResponse.data.payload) {
         setProjectDetails(projectResponse.data.payload);
         setProjectUpdates(projectResponse.data.payload.projectUpdates);

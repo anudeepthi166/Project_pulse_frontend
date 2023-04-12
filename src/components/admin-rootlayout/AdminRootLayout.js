@@ -12,6 +12,7 @@ function AdminRootLayout() {
     <div>
       {loginStatus === "idle" || ("" && navigate("/login"))}
       <div>
+        {/* header */}
         <div className="header ">
           <div className="">
             <Header />

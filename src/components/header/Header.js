@@ -20,6 +20,7 @@ function Header() {
     <div className="  header">
       <div>
         <ul className="nav justify-content-end">
+          {/* user-email */}
           <li className="nav-item ">
             <NavLink
               className={({ isActive }) =>
@@ -30,6 +31,7 @@ function Header() {
               {userObj.email}
             </NavLink>
           </li>
+          {/* logout */}
           <li className="nav-item">
             <NavLink
               className={({ isActive }) =>

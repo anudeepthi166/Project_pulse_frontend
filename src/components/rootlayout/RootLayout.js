@@ -6,6 +6,7 @@ import { Outlet } from "react-router-dom";
 
 function RootLayout() {
   return (
+    // main page
     <div className="main">
       <div style={{ minHeight: "100vh" }}>
         <Outlet />

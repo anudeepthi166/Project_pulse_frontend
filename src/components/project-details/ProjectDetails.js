@@ -6,6 +6,7 @@ function ProjectDetails({ projectDetails }) {
     <div className="mt-5 mb-3">
       <div className="row container  mt-3">
         <p className="text-center details-heading mt-3 "> Project Details</p>
+        {/* 1st column */}
         <div className="col-sm-6 col-md-4 ">
           <p>
             <b>Project Name:</b>
@@ -20,6 +21,7 @@ function ProjectDetails({ projectDetails }) {
             {projectDetails.client?.clientAccountManager}
           </p>
         </div>
+        {/* second column */}
         <div className="col-sm-6 col-md-4">
           <p>
             <b>Start Date:</b>
@@ -38,6 +40,7 @@ function ProjectDetails({ projectDetails }) {
             {projectDetails.projectStatus}
           </p>
         </div>
+        {/* third column */}
         <div className="col-sm-6 col-md-4">
           <p>
             <b>Domain:</b>

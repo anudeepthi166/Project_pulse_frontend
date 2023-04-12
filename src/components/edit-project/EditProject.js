@@ -9,12 +9,14 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 function EditProject() {
+  // state
   let { state } = useLocation();
   let [error, setError] = useState("");
   let [res, setRes] = useState({});
   let { userObj, loginStatus } = useSelector((state) => state.login);
 
   let navigate = useNavigate();
+  // useForm hook
   let {
     register,
     handleSubmit,

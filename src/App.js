@@ -8,7 +8,7 @@ import Login from "./components/login/Login";
 //import Error Page
 import ErrorPage from "./components/error-page/ErrorPage";
 
-//import root layouts
+//import dashbord layouts
 import SuperAdminRootLayout from "./components/superadmin-rootlayout/SuperAdminRootLayout";
 import AdminRootLayout from "./components/admin-rootlayout/AdminRootLayout";
 import ProjectManagerRootLayout from "./components/projectmanager-rootlayout/ProjectManagerRootLayout";
@@ -16,7 +16,7 @@ import GdoHeadRootLayout from "./components/gdo-head-rootlayout/GdoHeadRootLayou
 
 import AllUsers from "./components/all-users/AllUsers";
 import AssignRole from "./components/assign-role/AssignRole";
-import PortfolioDashboard from "./components/portfolio-dashboard/PorfolioDashboard";
+import PortfolioDashboard from "./components/portfolio-dashboard/PortfolioDashboard";
 import CreateProject from "./components/create-project/CreateProject";
 import DetailedView from "./components/detailed-view/DetailedView";
 
@@ -32,9 +32,6 @@ import EditProject from "./components/edit-project/EditProject";
 import EditTeamMember from "./components/edit-team-memeber/EditTeamMember";
 import EditProjectConcern from "./components/edit-project-concern/EditProjectConcern";
 
-// import AllUsers from "./components/allusers/AllUsers";
-// import AssignRole from "./components/assignrole/AssignRole";
-
 function App() {
   //create broweser router Object
   const broweserRouterObj = createBrowserRouter([
@@ -43,10 +40,10 @@ function App() {
       element: <RootLayout />,
       errorElement: <ErrorPage />,
       children: [
-        {
-          path: "/home",
-          element: <Home />,
-        },
+        // {
+        //   path: "/home",
+        //   element: <Home />,
+        // },
         {
           path: "register",
           element: <Register />,
@@ -68,6 +65,7 @@ function App() {
           path: "/user-profile",
           element: <Profile />,
         },
+        // super admin
         {
           path: "super-admin/:email",
           element: <SuperAdminRootLayout />,
@@ -83,6 +81,7 @@ function App() {
             },
           ],
         },
+        // admin user
         {
           path: "admin-user/:email",
           element: <AdminRootLayout />,
@@ -106,7 +105,7 @@ function App() {
             },
           ],
         },
-
+        // gdo head
         {
           path: "gdo-head/:email",
           element: <GdoHeadRootLayout />,
@@ -131,6 +130,7 @@ function App() {
             { path: "editTeamMember/:email", element: <EditTeamMember /> },
           ],
         },
+        // project manager
         {
           path: "project-manager/:email",
           element: <ProjectManagerRootLayout />,

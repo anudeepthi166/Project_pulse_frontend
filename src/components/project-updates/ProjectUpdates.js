@@ -6,9 +6,11 @@ function ProjectUpdates({ projectUpdates }) {
   return (
     <div className="">
       <div className="row mt-4 ">
+        {/* if no project updates */}
         {!projectUpdates.length && (
           <p className="text-danger fw-bold">No Updates For This Project</p>
         )}
+        {/* if project updates exists */}
         {projectUpdates.length !== 0 && (
           <Table responsive striped bordered hover className="text-center">
             <thead className="updates-thead text-light">

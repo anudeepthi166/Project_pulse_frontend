@@ -25,6 +25,7 @@ function RaiseResourceRequest() {
     let body = projectObj;
     projectObj.requestRaisedBy = userObj.email;
     try {
+      // api call
       let response = await axios.post(
         `http://localhost:4000/pulse/gdoHead//${userObj.email}/projectId/${projectObj.projectId}/resourceRequest`,
         projectObj,
@@ -48,6 +49,7 @@ function RaiseResourceRequest() {
   return (
     <div className="row conatiner mb-5">
       <p className="text-center update-heading mt-5">Raise Resource Request</p>
+      {/* {error  or message displaying} */}
       {error && <p className="text-danger text-center fw-bold">{error}</p>}
       {raised && <p className="text-success text-center fw-bold">{raised}</p>}
       <div className="col-10 col-sm-8 col-md-6 mx-auto">
@@ -63,11 +65,6 @@ function RaiseResourceRequest() {
               {...register("projectId", { required: true })}
               className="form-control"
             />
-            {/* <select
-              class="form-select form-select-sm"
-              aria-label=".form-select-sm "
-              {...register("projectId")}
-            ></select> */}
 
             {}
           </div>

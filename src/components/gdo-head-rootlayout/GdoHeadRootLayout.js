@@ -12,6 +12,7 @@ function GdoHeadRootLayout() {
     <div>
       {loginStatus === "idle" || ("" && navigate("/login"))}
       <div>
+        {/* header */}
         <div className="header">
           <Header />
         </div>

@@ -6,9 +6,11 @@ import { useNavigate } from "react-router-dom";
 import "./CreateProject.css";
 
 function CreateProject() {
+  // state
   let [error, setError] = useState("");
   let { userObj } = useSelector((state) => state.login);
 
+  // useForm hook
   let {
     register,
     handleSubmit,
@@ -25,25 +27,19 @@ function CreateProject() {
     if (token === null) {
       navigate("/login");
     }
-    // let projectStatus = document.querySelector("#projectStatus").value;
-    // let projectFitnessIndicator =
-    //   document.querySelector("#fitnessIndicator").value;
-    // let projectType = document.querySelector("#projectType").value;
-    // projectObj.projectStatus = projectStatus;
-    // projectObj.projectFitnessIndicator = projectFitnessIndicator;
-    // projectObj.projectType = projectType;
 
     if (projectObj.projectEndDate === "") {
       delete projectObj["projectEndDate"];
     }
 
     try {
+      // api call
       let response = await axios.post(
         `http://localhost:4000/pulse/admin/${userObj.email}/project`,
         projectObj,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
+      //suuccessfully created
       if (response.status === 201) {
         reset();
         navigate("../portfolio-dashboard");
@@ -262,6 +258,7 @@ function CreateProject() {
               <button className="button add-btn float-end ms-3" type="submit">
                 Add Project
               </button>
+              {/* reset button */}
               <button className="button resetBtn float-end ms-3" type="reset">
                 Reset
               </button>

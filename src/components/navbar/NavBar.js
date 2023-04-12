@@ -17,6 +17,7 @@ function NavBar() {
               Home
             </NavLink>
           </li> */}
+          {/* register */}
           <li className="nav-item">
             <NavLink
               className={({ isActive }) =>
@@ -27,6 +28,7 @@ function NavBar() {
               SignUp
             </NavLink>
           </li>
+          {/* login */}
           <li className="nav-item">
             <NavLink
               className={({ isActive }) =>

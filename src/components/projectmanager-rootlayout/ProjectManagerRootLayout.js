@@ -13,6 +13,7 @@ function ProjectManagerRootLayout() {
       {loginStatus === "idle" || ("" && navigate("/login"))}
       <div>
         <div>
+          {/* header */}
           <div className="header">
             <Header />
           </div>

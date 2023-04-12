@@ -4,11 +4,14 @@ import { useNavigate } from "react-router-dom";
 import "./AdminLeftSideMenu.css";
 
 function AdminLeftSideMenu() {
+  // navigate
   let navigate = useNavigate();
 
   return (
     <div className="left-side-menu pt-3" style={{ minHeight: "100vh" }}>
+      {/* side menu */}
       <ul className="nav  flex-column">
+        {/* Create project */}
         <li className="nav-item">
           <NavLink
             className={({ isActive }) =>
@@ -19,6 +22,7 @@ function AdminLeftSideMenu() {
             Project
           </NavLink>
         </li>
+        {/* portfolo dashboard */}
         <li className="nav-item">
           <NavLink
             className={({ isActive }) =>
@@ -29,6 +33,7 @@ function AdminLeftSideMenu() {
             Dashboard
           </NavLink>
         </li>
+        {/* resource request */}
         <li className="nav-item">
           <NavLink
             className={({ isActive }) =>
@@ -39,6 +44,7 @@ function AdminLeftSideMenu() {
             Resource Requests
           </NavLink>
         </li>
+        {/* project concerns */}
         <li className="nav-item">
           <NavLink
             className={({ isActive }) =>

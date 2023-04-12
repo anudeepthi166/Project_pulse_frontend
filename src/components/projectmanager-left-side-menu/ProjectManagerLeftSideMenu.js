@@ -7,7 +7,9 @@ function ProjectManagerLeftSideMenu() {
       {" "}
       <div>
         <div>
+          {/* side menu */}
           <ul className="nav  flex-column">
+            {/* Add Project Update */}
             <li className="nav-item">
               <NavLink
                 className={({ isActive }) =>
@@ -18,6 +20,7 @@ function ProjectManagerLeftSideMenu() {
                 Add Project Update
               </NavLink>
             </li>
+            {/* Dashboard */}
             <li className="nav-item">
               <NavLink
                 className={({ isActive }) =>
@@ -28,7 +31,7 @@ function ProjectManagerLeftSideMenu() {
                 Dashboard{" "}
               </NavLink>
             </li>
-
+            {/* Raise Project Concerns */}
             <li className="nav-item">
               <NavLink
                 className={({ isActive }) =>
