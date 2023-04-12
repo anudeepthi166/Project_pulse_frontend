@@ -8,7 +8,9 @@ import "./ForgotPassword.css";
 function ForgotPassword() {
   let email = "";
   let navigate = useNavigate();
+  // state
   let [resetBtn, setResetBtn] = useState(false);
+  // useForm hook
   let {
     register,
     handleSubmit,
@@ -18,13 +20,14 @@ function ForgotPassword() {
 
   let [error, setError] = useState("");
 
-  //form submit
+  //On form submit
   const onFormSubmit = async (userObj) => {
     email = userObj.email;
     console.log(userObj);
     try {
       let response;
       if (userObj.otp) {
+        // api call to reset password
         response = await axios.put(
           `http://localhost:4000/pulse/employee/${userObj.email}/resetPassword`,
           userObj
@@ -32,6 +35,7 @@ function ForgotPassword() {
         reset();
         navigate("/login");
       } else {
+        // api call to forgot password to get OTP
         response = await axios.post(
           `http://localhost:4000/pulse/employee/${userObj.email}/forgotPassword`,
           userObj
@@ -58,7 +62,7 @@ function ForgotPassword() {
           {/* Email */}
           <div className="mt-3">
             <lable htmlFor="email" className="form-label">
-              Email
+              Email <span className="text-danger"> *</span>
             </lable>
             <input
               type="text"
@@ -88,7 +92,7 @@ function ForgotPassword() {
                 {/* // OTP */}
                 <div className="mt-2">
                   <lable htmlFor="otp" className="form-label">
-                    OTP
+                    OTP <span className="text-danger"> *</span>
                   </lable>
                   <input
                     type="text"
@@ -104,7 +108,7 @@ function ForgotPassword() {
                 {/* New Password */}
                 <div className="mt-2">
                   <lable htmlFor="password" className="form-label">
-                    New Password
+                    New Password <span className="text-danger"> *</span>
                   </lable>
                   <input
                     type="password"

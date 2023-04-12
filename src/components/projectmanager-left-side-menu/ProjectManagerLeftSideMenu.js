@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 function ProjectManagerLeftSideMenu() {
   return (
-    <div className="left-side-menu pt-3" style={{ minHeight: "80vh" }}>
+    <div className="left-side-menu pt-3" style={{ minHeight: "100vh" }}>
       {" "}
       <div>
         <div>
@@ -25,20 +25,10 @@ function ProjectManagerLeftSideMenu() {
                 }
                 to="portfolio-dashboard"
               >
-                Dashboard
+                Dashboard{" "}
               </NavLink>
             </li>
 
-            <li className="nav-item">
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? "active nav-link" : "inactive nav-link"
-                }
-                to="raise-resource-request"
-              >
-                Raise Resource Requests
-              </NavLink>
-            </li>
             <li className="nav-item">
               <NavLink
                 className={({ isActive }) =>

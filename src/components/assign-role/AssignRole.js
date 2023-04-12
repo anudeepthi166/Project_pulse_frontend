@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
@@ -15,13 +15,12 @@ function AssignRole() {
 
   let { userObj, loginStatus } = useSelector((state) => state.login);
 
-  console.log(state);
-
   let navigate = useNavigate();
   let {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
 
   //state for Modal
@@ -33,30 +32,24 @@ function AssignRole() {
   };
 
   //onFormSubmit
-  const onFormSubmit = async () => {
-    var selectedOption = document.querySelector("#role");
-    let role = selectedOption.value;
-
+  const onFormSubmit = async (user) => {
     let token = sessionStorage.getItem("token");
     try {
+      // api call to role mapping by super admin
       let response = await axios.put(
         "http://localhost:4000/Pulse/employee/roleMapping",
-        { user: state.email, role: role },
+        user,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      console.log("response is ", response);
+      // succesufully role mapped
       if (response.data.payload) {
-        console.log("response.data", response.data);
         setRes(response.data);
         setError("");
       } else {
-        console.log("throw", response.data.message);
         throw new Error(response.data.message);
       }
     } catch (err) {
-      console.log("err is =-----", err.message);
-
       setError(err.message);
       setRes({});
     }
@@ -64,17 +57,24 @@ function AssignRole() {
     // closeModal
     closeModal();
   };
-  console.log("error", error);
-  console.log("res", Object.keys(res).length);
+
+  //useEffect
+  useEffect(() => {
+    setValue("email", state.email);
+    setValue("role", state.role);
+  }, []);
+
   return (
     <div>
       <div>
+        {/* error displaying */}
         {Object.keys(error) && (
           <div>
             {" "}
             <p className="text-danger text-center fw-bold mt-5">{error}</p>
           </div>
         )}
+        {/* message displaying */}
         {Object.keys(res).length !== 0 && (
           <div>
             <div className="text-success text-center fw-bold">
@@ -84,10 +84,10 @@ function AssignRole() {
                 <span className="text-dark"> ----> </span>
                 {res.payload[1]}
               </p>
-              {/* <button className="btn btn-warning">Get All Users</button> */}
             </div>
           </div>
         )}
+        {/* Button to get users list */}
         <div className="container mx-auto bg-success ms-5">
           <button
             className="btn btn-outline-primary mx-auto mt-2 float-end"
@@ -97,19 +97,7 @@ function AssignRole() {
           </button>
         </div>
       </div>
-      {/* {console.log("-------------------", res)} 
 
-        {/* {message.length && (
-          <div className="text-success text-center fw-bold">
-            <p>{message.message}</p>
-            <p>
-              {message.payload[0]}
-              <span className="text-dark"> ----> </span>
-              {message.payload[1]}
-            </p>
-          </div>
-        )} 
-      </div> */}
       {/* Modal */}
       <Modal show={showModal} onHide={closeModal}>
         <Modal.Header closeButton>
@@ -129,7 +117,6 @@ function AssignRole() {
                 {...register("email")}
                 className="form-control"
                 disabled
-                defaultValue={state.email}
               />
             </div>
             {/* Role */}
@@ -140,7 +127,7 @@ function AssignRole() {
               <select
                 class="form-select form-select-sm"
                 aria-label=".form-select-sm "
-                id="role"
+                {...register("role")}
               >
                 <option defaultChecked disabled>
                   --- Select Role ---
@@ -149,7 +136,7 @@ function AssignRole() {
                 <option value="gdoHead">Gdo Head</option>
                 <option value="projectManager">Project Manger</option>
                 <option value="hrManager">Hr Manger</option>
-                <option value="superAdmin">Super Manger</option>
+                <option value="superAdmin">Super Admin</option>
               </select>
             </div>
             <div className="mt-3 float-end">
@@ -160,7 +147,10 @@ function AssignRole() {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="warning" onClick={closeModal}>
+          <Button
+            variant="warning"
+            onClick={() => navigate(`/super-admin/${userObj.email}/get-users`)}
+          >
             Close
           </Button>
         </Modal.Footer>

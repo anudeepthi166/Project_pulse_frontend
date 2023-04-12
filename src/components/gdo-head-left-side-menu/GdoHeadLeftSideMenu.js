@@ -46,6 +46,16 @@ function GdoHeadLeftSideMenu() {
               Project Concerns
             </NavLink>
           </li>
+          <li className="nav-item">
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "active nav-link" : "inactive nav-link"
+              }
+              to="raise-resource-request"
+            >
+              Raise Resource Requests
+            </NavLink>
+          </li>
         </ul>
       </div>
     </div>

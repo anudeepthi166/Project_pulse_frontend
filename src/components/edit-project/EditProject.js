@@ -14,8 +14,6 @@ function EditProject() {
   let [res, setRes] = useState({});
   let { userObj, loginStatus } = useSelector((state) => state.login);
 
-  console.log(state);
-
   let navigate = useNavigate();
   let {
     register,
@@ -54,7 +52,6 @@ function EditProject() {
 
   // on form submit
   const onFormSubmit = async (projectObj) => {
-    console.log("Project Object From Modal", projectObj);
     if (projectObj.projectEndDate === "") {
       delete projectObj["projectEndDate"];
     }
@@ -66,7 +63,7 @@ function EditProject() {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
-    console.log("Updated Response", res);
+
     closeModal();
     navigate(`/admin-user/${userObj.email}/portfolio-dashboard`);
   };
@@ -140,7 +137,7 @@ function EditProject() {
                     Project Status
                   </label>
                   <select
-                    class="form-select form-select-sm"
+                    className="form-select form-select-sm"
                     aria-label=".form-select-sm "
                     {...register("projectStatus")}
                     placeholder="Project Status"
@@ -223,7 +220,7 @@ function EditProject() {
                     Project Type
                   </label>
                   <select
-                    class="form-select form-select-sm"
+                    className="form-select form-select-sm"
                     aria-label=".form-select-sm "
                     {...register("projectType")}
                   >

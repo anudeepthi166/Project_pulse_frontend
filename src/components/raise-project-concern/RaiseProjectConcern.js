@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 
 function RaiseProjectConcern() {
-  console.log("Raise project Concern");
   let {
     register,
     handleSubmit,
@@ -29,18 +28,21 @@ function RaiseProjectConcern() {
     concernObj.concernRaisedBy = userObj.email;
 
     try {
+      //api call
       let response = await axios.post(
         `http://localhost:4000/pulse/projectManager/${userObj.email}/projectId/${concernObj.projectId}/concerns`,
         concernObj,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      console.log(response);
+
       if (response.data.payload) {
         setConcern(
           `Concern Raised by ${concernObj.concernRaisedBy} reagarding ${concernObj.concernDesc}`
         );
         reset();
         setError("");
+      } else {
+        throw new Error(response.data.message);
       }
     } catch (err) {
       setError(err.message);
@@ -103,17 +105,6 @@ function RaiseProjectConcern() {
                   <p className="text-danger fw-bold">date is mandatory</p>
                 )}
               </div>
-              {/* Raised By
-          <div className="mt-3">
-            <label htmlFor="concernRaisedBy" className="form-label">
-              {/* Raised By
-            </label>
-            <input
-              type="text"
-              {...register("concernRaisedBy", { required: true })}
-              className="form-control"
-            />
-          </div> */}
               {/* Severity */}
               <div className="mt-3">
                 <label htmlFor="concernSeverity" className="form-label">
@@ -140,23 +131,6 @@ function RaiseProjectConcern() {
               </div>
             </div>
             <div className="col-md-5 mx-auto">
-              {/* Indicator */}
-              <div className="mt-3">
-                <label htmlFor="concernIndicator" className="form-label">
-                  Concern Indicator
-                </label>
-                <input
-                  type="text"
-                  {...register("concernIndicator", { required: true })}
-                  className="form-control"
-                />
-                {/* {Validations} */}
-                {errors.concernIndicator?.type === "required" && (
-                  <p className="text-danger fw-bold">
-                    Concern Indicator is mandatory
-                  </p>
-                )}
-              </div>
               {/* Raised From Client */}
               <div className="mt-3">
                 <label htmlFor="concernRaisedFromClient" className="form-label">
@@ -202,7 +176,7 @@ function RaiseProjectConcern() {
               {/* Mitigated Date */}
               <div className="mt-3">
                 <label htmlFor="concernMitigatedDate" className="form-label">
-                  Concern Mitigated Date
+                  Concern Mitigated On Date
                 </label>
                 <input
                   type="date"

@@ -18,8 +18,9 @@ function DetailedView() {
   let [projectUpdates, setProjectUpdates] = useState([]);
   let [team, setTeam] = useState([]);
   let [projectConcerns, setProjectConcerns] = useState([]);
+  // let [concernCount, setConcernCount] = useState(0);
+  let concernCount = 0;
 
-  // console.log("state", state.projectId, state.email);
   //get Project detailed View
   const getProjectDetailedView = async () => {
     //get the token
@@ -35,7 +36,6 @@ function DetailedView() {
       }
       // gdo Head
       else if (state.role === "gdoHead") {
-        console.log("projectId in state", state.projectId);
         projectResponse = await axios.get(
           `http://localhost:4000/pulse/gdoHead/${state.email}/projectId/${state.projectId}/detailedView`,
           { headers: { Authorization: `Bearer ${token}` } }
@@ -49,13 +49,13 @@ function DetailedView() {
         );
       }
 
-      console.log("----response", projectResponse);
       setGetData(true);
       if (projectResponse.data.payload) {
         setProjectDetails(projectResponse.data.payload);
         setProjectUpdates(projectResponse.data.payload.projectUpdates);
         setTeam(projectResponse.data.payload.teamMembers);
         setProjectConcerns(projectResponse.data.payload.concerns);
+
         setError("");
       } else {
         throw new Error(projectResponse.data.message);
@@ -69,9 +69,6 @@ function DetailedView() {
   useEffect(() => {
     getProjectDetailedView();
   }, []);
-
-  // console.log("------PU", projectUpdates);
-  // console.log("-------PC", projectConcerns);
 
   return (
     <div>
@@ -95,7 +92,12 @@ function DetailedView() {
         <div className="card col-sm-6 col-md-5 col-lg-3 ">
           <div className="card-title pt-3 ps-2">Concern Indicator</div>
           <div className="card-body">
-            <p className="float-end">{projectConcerns.length}</p>
+            {projectConcerns.map((concernObj) => {
+              if (concernObj.concernStatus === "raised") {
+                concernCount += 1;
+              }
+            })}
+            <h2 className="float-end ">{concernCount}</h2>
           </div>
         </div>
         {/* project Fitness Indicator */}
@@ -112,7 +114,7 @@ function DetailedView() {
                   width="32"
                   height="32"
                   fill="currentColor"
-                  class="bi bi-circle-fill"
+                  className="bi bi-circle-fill"
                   viewBox="0 0 16 16"
                 >
                   <circle cx="8" cy="8" r="8" />
@@ -127,7 +129,7 @@ function DetailedView() {
                   width="32"
                   height="32"
                   fill="red"
-                  class="bi bi-circle-fill"
+                  className="bi bi-circle-fill"
                   viewBox="0 0 16 16"
                 >
                   <circle cx="8" cy="8" r="8" />
@@ -142,7 +144,7 @@ function DetailedView() {
                   width="32"
                   height="32"
                   fill="currentColor"
-                  class="bi bi-circle-fill"
+                  className="bi bi-circle-fill"
                   viewBox="0 0 16 16"
                 >
                   <circle cx="8" cy="8" r="8" />
@@ -155,7 +157,7 @@ function DetailedView() {
         <div className="card col-sm-6 col-md-5 col-lg-3">
           <div className="card-title pt-3 ps-2">Billed team members Count</div>
           <div className="card-body ">
-            <p className="float-end">{projectDetails.count}</p>
+            <h2 className="float-end ">{projectDetails.count}</h2>
           </div>
         </div>
       </div>

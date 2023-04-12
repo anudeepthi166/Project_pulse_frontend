@@ -9,12 +9,14 @@ import { Table } from "react-bootstrap";
 function AllUsers() {
   let [users, setUsers] = useState([]);
   let [error, setError] = useState("");
+  let [deletedRole, setDeletedRole] = useState(false);
   let navigate = useNavigate();
 
   let { userObj, loginStatus } = useSelector((state) => state.login);
 
   //get the token
   let token = sessionStorage.getItem("token");
+
   //get Users
   const getUsers = async () => {
     //check Token
@@ -27,7 +29,7 @@ function AllUsers() {
           "http://localhost:4000/Pulse/employee/getAllUsers",
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        console.log(response);
+
         if (response.status === 200) {
           setUsers(response.data.payload);
         }
@@ -44,6 +46,20 @@ function AllUsers() {
   //navigate to Assign Role
   const navigateToAssignRole = (userObj) => {
     navigate(`/super-admin/${userObj.email}/assign-role`, { state: userObj });
+  };
+
+  //deleteRole
+  const deleteRole = async (userObj) => {
+    // api call to remove role
+
+    let response = await axios.put(
+      `http://localhost:4000/Pulse/employee/${userObj.email}/removeRole`,
+      {},
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    if (response.status === 200) {
+      getUsers();
+    }
   };
 
   return (
@@ -71,6 +87,7 @@ function AllUsers() {
                     <td>{userObj.employeeName}</td>
                     <td>{userObj.role}</td>
                     <td>
+                      {/* Role Mapping  */}
                       <button
                         className="btn btn-outline-warning edit-btn btn-sm text-dark"
                         onClick={() => navigateToAssignRole(users[index])}
@@ -98,21 +115,22 @@ function AllUsers() {
                       </button>
                     </td>
                     <td>
+                      {/* Role removing */}
                       <button
                         className="btn btn-outline-danger text-dark del-btn btn-sm"
-                        // onClick={() => navigateToAssignRole(users[index])}
+                        onClick={() => deleteRole(users[index])}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
                           height="16"
                           fill="currentColor"
-                          class="bi bi-trash"
+                          className="bi bi-trash"
                           viewBox="0 0 16 16"
                         >
                           <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
                           <path
-                            fill-rule="evenodd"
+                            fillRule="evenodd"
                             d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
                           />
                         </svg>

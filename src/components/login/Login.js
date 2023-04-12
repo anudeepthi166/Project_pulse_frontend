@@ -13,7 +13,6 @@ function Login() {
     (state) => state.login
   );
   let [status, setStatus] = useState();
-  console.log(status);
 
   let dispatch = useDispatch();
   let navigate = useNavigate();
@@ -26,22 +25,25 @@ function Login() {
 
   //onForm Submit
   const onFormSubmit = (userCredObj) => {
-    console.log("submitted", loginStatus);
+    // setting state for spinners
     setStatus(false);
-    console.log(userCredObj);
+
+    // dispatching
     dispatch(userLogin(userCredObj));
   };
   //useEffect Hook
   useEffect(() => {
+    //Check  login Status
     if (loginStatus === "idle") {
       navigate("/login");
     }
     if (errorMessage !== "") {
       setStatus(true);
     }
+    // If login success navigate to respective dashboards
     if (loginStatus === "success") {
       setStatus(true);
-      // setStatus(loginStatus);
+
       // superAdmin
       if (userObj.role === "superAdmin")
         navigate(`/super-admin/${userObj.email}`);
@@ -64,23 +66,19 @@ function Login() {
       }
     }
   }, [loginStatus]);
-  // console.log(errors);
+
   return (
     <div>
+      {/* nav bar */}
       <NavBar />
-      {console.log("-------------------status", status)}
-
-      {/* {status === "idle" && errorMessage && (
-        <div className="spinner-border text-success text-center" role="status">
-          <span className="sr-only"></span>
-        </div>
-      )} */}
       <div className="conatiner mx-auto mt-5">
         <p className="text-center login-heading ">Login</p>
+        {/* display error messages */}
         {errorMessage && (
           <p className="text-danger text-center fw-bold">{errorMessage}</p>
         )}
         <div className="row mx-auto">
+          {/* spinners */}
           {status === false && (
             <div className="spinner-border text-success mx-auto" role="status">
               <span className="sr-only"></span>
@@ -93,7 +91,7 @@ function Login() {
             {/*Email  */}
             <div className="mt-2">
               <label htmlFor="email" className="form-label">
-                Email
+                Email<span className="text-danger"> *</span>
               </label>
               <input
                 type="text"
@@ -110,7 +108,7 @@ function Login() {
             {/*Password  */}
             <div className="mt-2">
               <label htmlFor="password" className="form-label">
-                Password
+                Password <span className="text-danger"> *</span>
               </label>
               <input
                 type="password"

@@ -36,7 +36,6 @@ function AllProjectConcerns() {
         );
       }
 
-      console.log(response.data.payload);
       setGetData(true);
       if (response.data.payload) {
         setConcerns(response.data.payload);
@@ -72,16 +71,18 @@ function AllProjectConcerns() {
             <div className="">
               <Table responsive striped bordered hover className="text-center">
                 <thead className="concerns-heading">
-                  <th>Concern Id</th>
-                  <th>Project Id</th>
-                  <th>Description</th>
-                  <th>Indicator</th>
-                  <th> Raised By</th>
-                  <th>Raised From Client</th>
-                  <th>Raised On</th>
-                  <th>Status</th>
-                  <th>Severity</th>
-                  <th>Mitigated Date</th>
+                  <tr>
+                    {" "}
+                    <th>Concern Id</th>
+                    <th>Project Id</th>
+                    <th>Description</th>
+                    <th> Raised By</th>
+                    <th>Raised From Client</th>
+                    <th>Raised On</th>
+                    <th>Status</th>
+                    <th>Severity</th>
+                    <th>Mitigated Date</th>
+                  </tr>
                 </thead>
                 <tbody>
                   {concerns.length &&
@@ -91,13 +92,25 @@ function AllProjectConcerns() {
                           <td>{projectConcernObj.concernId}</td>
                           <td>{projectConcernObj.projectId}</td>
                           <td>{projectConcernObj.concernDesc}</td>
-                          <td>{projectConcernObj.concernIndicator}</td>
+
                           <td>{projectConcernObj.concernRaisedBy}</td>
-                          <td>{projectConcernObj.concernRaisedFromClient}</td>
-                          <td>{projectConcernObj.concernRaisedOn}</td>
+                          <td>
+                            {projectConcernObj.concernRaisedFromClient
+                              ? "Yes"
+                              : "No"}
+                          </td>
+                          <td>
+                            {projectConcernObj.concernRaisedOn.split("T")[0]}
+                          </td>
                           <td>{projectConcernObj.concernStatus}</td>
                           <td>{projectConcernObj.concernSeverity}</td>
-                          <td>{projectConcernObj.concernMitigatedDate}</td>
+                          <td>
+                            {projectConcernObj.concernMitigatedDate
+                              ? projectConcernObj.concernMitigatedDate.split(
+                                  "T"
+                                )[0]
+                              : "--"}
+                          </td>
                         </tr>
                       );
                     })}

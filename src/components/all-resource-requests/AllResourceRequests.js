@@ -36,7 +36,6 @@ function ResourceRequests() {
         );
       }
 
-      console.log(response.data.payload);
       setGetData(true);
       if (response.data.payload) {
         setRequests(response.data.payload);
@@ -70,10 +69,12 @@ function ResourceRequests() {
             <div className="col-8 col-sm- col-md-10 mx-auto">
               <Table responsive striped bordered hover className="text-center">
                 <thead className="resources-thead">
-                  <th>Id</th>
-                  <th>Project Id</th>
-                  <th>Resource Description</th>
-                  <th>Raised By</th>
+                  <tr>
+                    <th>Id</th>
+                    <th>Project Id</th>
+                    <th>Resource Description</th>
+                    <th>Raised By</th>
+                  </tr>
                 </thead>
                 <tbody>
                   {requests.length &&

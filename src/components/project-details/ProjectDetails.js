@@ -2,7 +2,6 @@ import React from "react";
 import "./ProjectDetails.css";
 
 function ProjectDetails({ projectDetails }) {
-  console.log("Details", projectDetails);
   return (
     <div className="mt-5 mb-3">
       <div className="row container  mt-3">
@@ -13,6 +12,16 @@ function ProjectDetails({ projectDetails }) {
             {projectDetails.projectName}
           </p>
           <p>
+            <b>Client:</b>
+            {projectDetails.client?.clientEmail}
+          </p>
+          <p>
+            <b>Client Account Manager:</b>
+            {projectDetails.client?.clientAccountManager}
+          </p>
+        </div>
+        <div className="col-sm-6 col-md-4">
+          <p>
             <b>Start Date:</b>
             {projectDetails.projectStartDate}
           </p>
@@ -20,29 +29,27 @@ function ProjectDetails({ projectDetails }) {
             <b>End Date:</b>
             {projectDetails.projectEndDate}
           </p>
-        </div>
-        <div className="col-sm-6 col-md-4">
-          <p>
-            <b>Status:</b>
-            {projectDetails.projectStatus}
-          </p>
           <p>
             <b>Fitness Indicator:</b>
             {projectDetails.projectFitnessIndicator}
           </p>
           <p>
-            <b>Team Size:</b>
-            {projectDetails.count}
+            <b>Status:</b>
+            {projectDetails.projectStatus}
           </p>
         </div>
         <div className="col-sm-6 col-md-4">
+          <p>
+            <b>Domain:</b>
+            {projectDetails.projectDomain}
+          </p>
           <p>
             <b>Project Type:</b>
             {projectDetails.projectType}
           </p>
           <p>
-            <b>Domain:</b>
-            {projectDetails.projectDomain}
+            <b>Team Size:</b>
+            {projectDetails.count}
           </p>
         </div>
       </div>

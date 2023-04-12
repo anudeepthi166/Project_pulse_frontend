@@ -29,6 +29,9 @@ import AllProjectConcerns from "./components/all-project-concerns/AllProjectConc
 import ForgotPassword from "./components/forgort-password/ForgotPassword";
 import Profile from "./components/profile/Profile";
 import EditProject from "./components/edit-project/EditProject";
+import EditTeamMember from "./components/edit-team-memeber/EditTeamMember";
+import EditProjectConcern from "./components/edit-project-concern/EditProjectConcern";
+
 // import AllUsers from "./components/allusers/AllUsers";
 // import AssignRole from "./components/assignrole/AssignRole";
 
@@ -113,6 +116,10 @@ function App() {
             { path: "resource-requests", element: <AllResourceRequests /> },
             { path: "project-concerns", element: <AllProjectConcerns /> },
             {
+              path: "raise-resource-request",
+              element: <RaiseResourceRequest />,
+            },
+            {
               path: "portfolio-dashboard",
               element: <PortfolioDashboard />,
               children: [],
@@ -121,6 +128,7 @@ function App() {
               path: "project-detailed-view/:projectId",
               element: <DetailedView />,
             },
+            { path: "editTeamMember/:email", element: <EditTeamMember /> },
           ],
         },
         {
@@ -128,10 +136,7 @@ function App() {
           element: <ProjectManagerRootLayout />,
           children: [
             { path: "", element: <PortfolioDashboard /> },
-            {
-              path: "raise-resource-request",
-              element: <RaiseResourceRequest />,
-            },
+
             {
               path: "raise-project-concern",
               element: <RaiseProjectConcern />,
@@ -146,6 +151,10 @@ function App() {
             {
               path: "project-detailed-view/:projectId",
               element: <DetailedView />,
+            },
+            {
+              path: "projectId/:projectId/editConcern",
+              element: <EditProjectConcern />,
             },
           ],
         },

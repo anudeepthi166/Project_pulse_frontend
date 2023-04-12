@@ -3,7 +3,6 @@ import "./ProjectUpdates.css";
 import Table from "react-bootstrap/Table";
 
 function ProjectUpdates({ projectUpdates }) {
-  console.log("ProjectU", projectUpdates.length);
   return (
     <div className="">
       <div className="row mt-4 ">
@@ -17,9 +16,9 @@ function ProjectUpdates({ projectUpdates }) {
                 <th>update Id</th>
                 <th>Updated On</th>
                 <th>Status Update</th>
-                <th> Quality Status</th>
-                <th>Resourcing Status</th>
                 <th>Schedule Status</th>
+                <th>Resourcing Status</th>
+                <th> Quality Status</th>
                 <th>Waiting For Clients Input</th>
               </tr>
             </thead>
@@ -28,12 +27,17 @@ function ProjectUpdates({ projectUpdates }) {
                 return (
                   <tr key={index}>
                     <td>{projectUpdateObj.updateId}</td>
-                    <td>{projectUpdateObj.updatedOn}</td>
+                    <td>{projectUpdateObj.updatedOn.split("T")[0]}</td>
                     <td>{projectUpdateObj.projectStatusUpdate}</td>
-                    <td>{projectUpdateObj.qualityStatus}</td>
-                    <td>{projectUpdateObj.resourcingStatus}</td>
                     <td>{projectUpdateObj.scheduleStatus}</td>
-                    <td>{projectUpdateObj.waitingForClientsInputs}</td>
+                    <td>{projectUpdateObj.resourcingStatus}</td>
+                    <td>{projectUpdateObj.qualityStatus}</td>
+
+                    <td>
+                      {projectUpdateObj.waitingForClientsInputs === 1
+                        ? "Yes"
+                        : "No"}
+                    </td>
                   </tr>
                 );
               })}

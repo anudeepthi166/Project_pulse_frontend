@@ -8,7 +8,7 @@ import "./CreateProject.css";
 function CreateProject() {
   let [error, setError] = useState("");
   let { userObj } = useSelector((state) => state.login);
-  console.log("create Project");
+
   let {
     register,
     handleSubmit,
@@ -32,7 +32,7 @@ function CreateProject() {
     // projectObj.projectStatus = projectStatus;
     // projectObj.projectFitnessIndicator = projectFitnessIndicator;
     // projectObj.projectType = projectType;
-    console.log("-------Form Data", projectObj);
+
     if (projectObj.projectEndDate === "") {
       delete projectObj["projectEndDate"];
     }
@@ -43,7 +43,7 @@ function CreateProject() {
         projectObj,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      console.log(response);
+
       if (response.status === 201) {
         reset();
         navigate("../portfolio-dashboard");
@@ -52,15 +52,15 @@ function CreateProject() {
       //   throw new Error("Please recheck Gdo Head and project Manager emails");
       // }
       else {
-        setError("Please Recheck Client Id ");
+        throw new Error(response.data.message);
       }
     } catch (err) {
-      console.log(err);
-
-      setError(err.response.data.message);
+      if (error.message === "Validation error") {
+        setError("Change The project Name");
+      } else setError(err.message);
     }
   };
-  console.log(error);
+
   return (
     <div className="row conatiner mb-5 mt-4">
       <p className="text-center create-heading ">Create Project</p>
@@ -74,7 +74,7 @@ function CreateProject() {
               {/* Project Name */}
               <div className="mt-3">
                 <label htmlFor="projectName" className="form-label">
-                  Project name
+                  Project name<span className="text-danger"> *</span>
                 </label>
                 <input
                   type="text"
@@ -92,7 +92,7 @@ function CreateProject() {
               {/* GDO Head */}
               <div className="mt-3">
                 <label htmlFor="gdoHead" className="form-label">
-                  Gdo Head
+                  Gdo Head<span className="text-danger"> *</span>
                 </label>
                 <input
                   type="text"
@@ -110,7 +110,7 @@ function CreateProject() {
               {/* Project Manager */}
               <div className="mt-3">
                 <label htmlFor="projectManager" className="form-label">
-                  Project Manager
+                  Project Manager<span className="text-danger"> *</span>
                 </label>
                 <input
                   type="text"
@@ -128,7 +128,7 @@ function CreateProject() {
               {/* Client Id */}
               <div className="mt-3">
                 <label htmlFor="clientId" className="form-label">
-                  Client Id
+                  Client Id <span className="text-danger"> *</span>
                 </label>
                 <input
                   type="number"
@@ -144,7 +144,7 @@ function CreateProject() {
               {/* Project Status */}
               <div className="mt-3">
                 <label htmlFor="projectStatus" className="form-label">
-                  Project Status
+                  Project Status<span className="text-danger"> *</span>
                 </label>
                 <select
                   className="form-select form-select-sm"
@@ -170,7 +170,7 @@ function CreateProject() {
               {/* Project Start Date */}
               <div className="mt-3">
                 <label htmlFor="projectStartDate" className="form-label">
-                  Project Start Date
+                  Project Start Date <span className="text-danger"> *</span>
                 </label>
                 <input
                   type="date"
@@ -201,10 +201,11 @@ function CreateProject() {
               {/* Project Fitness Indicator */}
               <div className="mt-3">
                 <label htmlFor="projectFitnessIndicator" className="form-label">
-                  Project Fitness Indicator
+                  Project Fitness Indicator{" "}
+                  <span className="text-danger"> *</span>
                 </label>
                 <select
-                  class="form-select form-select-sm"
+                  className="form-select form-select-sm"
                   aria-label=".form-select-sm "
                   {...register("projectFitnessIndicator")}
                 >
@@ -219,7 +220,7 @@ function CreateProject() {
               {/* Project Domain */}
               <div className="mt-3">
                 <label htmlFor="projectDomain" className="form-label">
-                  Project Domain
+                  Project Domain<span className="text-danger"> *</span>
                 </label>
                 <input
                   type="text"
@@ -231,10 +232,10 @@ function CreateProject() {
               {/* Project Type */}
               <div className="mt-3">
                 <label htmlFor="projectType" className="form-label">
-                  Project Type
+                  Project Type<span className="text-danger"> *</span>
                 </label>
                 <select
-                  class="form-select form-select-sm"
+                  className="form-select form-select-sm"
                   aria-label=".form-select-sm "
                   {...register("projectType")}
                 >

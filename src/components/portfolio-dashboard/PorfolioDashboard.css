@@ -4,6 +4,10 @@
   text-shadow: 1px 1px #5cf38e;
   font-weight: bold;
 }
+
+.deletedRow {
+  background-color: #e87e7e;
+}
 /* .edit-btn {
   background-color: #eed588;
 }

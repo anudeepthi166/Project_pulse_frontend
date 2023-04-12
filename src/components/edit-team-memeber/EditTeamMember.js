@@ -1,60 +1,109 @@
-import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import axios from "axios";
 import { useSelector } from "react-redux";
-import "./AddTeam.css";
+import { Modal } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { useEffect } from "react";
 
-function AddTeam() {
-  // state from redux
+function EditTeamMember() {
+  // state from another component
+  let { state } = useLocation();
+
+  // setting Date
+  let startDate =
+    state.startDate.split("-")[0] +
+    "-" +
+    state.startDate.split("-")[1] +
+    "-" +
+    state.startDate.split("-")[2].split("T")[0];
+
+  // state for error messages
+  let [error, setError] = useState("");
+  let [res, setRes] = useState({});
+
   let { userObj, loginStatus } = useSelector((state) => state.login);
 
+  let navigate = useNavigate();
+  // useForm hook
   let {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
+    setValue,
   } = useForm();
 
-  let [error, setError] = useState("");
-  let [message, setMessage] = useState("");
+  //state for Modal
+  let [showModal, setShowModal] = useState(true);
+  // const openModal = () => setShowModal(true);
+  const closeModal = () => {
+    setShowModal(false);
+    navigate(`/gdo-head/${userObj.email}/portfolio-dashboard`);
+  };
 
-  const onFormSubmit = async (teamObj) => {
-    if (teamObj.endDate === "") {
-      delete teamObj["endDate"];
+  //onFormSubmit
+  const onFormSubmit = async (teamMember) => {
+    let token = sessionStorage.getItem("token");
+    if (teamMember.endDate === "") {
+      delete teamMember["endDate"];
     }
     try {
-      //get token
-      let token = sessionStorage.getItem("token");
-
-      let response = await axios.post(
+      // api call to role mapping by super admin
+      let response = await axios.put(
         `http://localhost:4000/pulse/gdoHead/${userObj.email}/teamMembers`,
-        teamObj,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        teamMember,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
+      // succesufully edit details
       if (response.status === 201) {
-        setMessage(response.data.message);
+        setRes(response.data.message);
         setError("");
-        reset();
       } else {
         throw new Error(response.data.message);
       }
     } catch (err) {
       setError(err.message);
+      setRes({});
+    } finally {
+      // closeModal
+      closeModal();
     }
   };
+
+  //useEffect
+  useEffect(() => {
+    setValue("email", state.email);
+    setValue("projectId", state.projectId);
+    setValue("role", state.role);
+    setValue("startDate", startDate);
+    setValue("allocationType", state.allocationType);
+    setValue("exposedToClient", state.exposedToClient === "Yes" ? 1 : 0);
+    setValue("status", state.status);
+  }, []);
+
   return (
     <div>
-      <div className="row conatiner mb-5">
-        <p className="text-center team-head mt-3">Adding Team</p>
-        {error && <p className="text-center text-danger fw-bold">{error}</p>}
-        {message && (
-          <p className="text-center text-success fw-bold">{message}</p>
+      <div>
+        {/* error displaying */}
+        {Object.keys(error) && (
+          <div>
+            {" "}
+            <p className="text-danger text-center fw-bold mt-5">{error}</p>
+          </div>
         )}
-        <div className="col-10 col-sm-10 col-md-11 mx-auto">
-          {/* Form */}
+      </div>
+
+      {/* Modal */}
+      <Modal show={showModal} onHide={closeModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Team Member Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {/* Assign Role Form */}
+
           <form onSubmit={handleSubmit(onFormSubmit)}>
             <div className="row container">
               <div className="col-md-5 mx-auto">
@@ -150,9 +199,6 @@ function AddTeam() {
                     aria-label=".form-select-sm "
                     {...register("status")}
                   >
-                    <option defaultChecked disabled>
-                      --- Status---
-                    </option>
                     <option value="Active">Active</option>
                     <option value="In active">In active</option>
                   </select>
@@ -167,9 +213,6 @@ function AddTeam() {
                     aria-label=".form-select-sm "
                     {...register("exposedToClient")}
                   >
-                    <option defaultChecked disabled>
-                      --- Select ---
-                    </option>
                     <option value="1">Yes</option>
                     <option value="0">No</option>
                   </select>
@@ -184,9 +227,6 @@ function AddTeam() {
                     aria-label=".form-select-sm "
                     {...register("billingStatus")}
                   >
-                    <option defaultChecked disabled>
-                      --- Select ---
-                    </option>
                     <option value="billed">Billed</option>
                     <option value="buffer">Buffer</option>
                   </select>
@@ -202,9 +242,6 @@ function AddTeam() {
                     aria-label=".form-select-sm "
                     {...register("allocationType")}
                   >
-                    <option defaultChecked disabled>
-                      --- Allocation Type---
-                    </option>
                     <option value="Permanent">Permanent</option>
                     <option value="Temporary">Temporary</option>
                   </select>
@@ -213,7 +250,7 @@ function AddTeam() {
               {/* Submit Button */}
               <div className="mt-4">
                 <button className="button add-btn float-end ms-3" type="submit">
-                  Add To Team
+                  Edit
                 </button>
                 <button className="button resetBtn float-end ms-3" type="reset">
                   Reset
@@ -221,10 +258,20 @@ function AddTeam() {
               </div>
             </div>
           </form>
-        </div>
-      </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="warning"
+            onClick={() =>
+              navigate(`/gdo-head/${userObj.email}/portfolio-dashboard`)
+            }
+          >
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
 
-export default AddTeam;
+export default EditTeamMember;

@@ -7,7 +7,7 @@ import "./AddProjectUpdate.css";
 function AddProjectUpdate() {
   // state from redux
   let { userObj, loginStatus } = useSelector((state) => state.login);
-  // console.log(userObj.email);
+
   let {
     register,
     handleSubmit,
@@ -15,29 +15,16 @@ function AddProjectUpdate() {
     reset,
   } = useForm();
 
+  // state
   let [error, setError] = useState("");
   let [message, setMessage] = useState("");
 
   const onFormSubmit = async (updateObj) => {
-    console.log(updateObj);
-    // updateObj.projectStatusUpdate = document.querySelector(
-    //   "#projectStatusUpdate"
-    // ).value;
-    // updateObj.scheduleStatus = document.querySelector("#scheduleStatus").value;
-    // updateObj.qualityStatus = document.querySelector("#qualityStatus").value;
-
-    // updateObj.waitingForClientInputs = document.querySelector(
-    //   "#waitingForClientInputs"
-    // ).value;
-    // updateObj.resourcingStatus =
-    //   document.querySelector("#resourcingStatus").value;
-    // console.log("------", updateObj);
     try {
       //get token
       let token = sessionStorage.getItem("token");
-      console.log(token);
-      // console.log(userObj.email);
 
+      // post request
       let response = await axios.post(
         `http://localhost:4000/pulse/projectManager/${userObj.email}/projectId/${updateObj.projectId}/projectUpdates`,
         updateObj,
@@ -45,12 +32,15 @@ function AddProjectUpdate() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log(response);
+
+      // check for payload
       if (response.data.payload) {
         reset();
         setMessage(response.data.message);
         setError("");
-      } else {
+      }
+      //if payload doesn't exists throw error
+      else {
         throw new Error(response.data.message);
       }
     } catch (err) {
@@ -73,28 +63,40 @@ function AddProjectUpdate() {
                 {/*projectId */}
                 <div className="mt-3">
                   <label htmlFor="projectId" className="form-label">
-                    Project Id
+                    Project Id<span className="text-danger"> *</span>
                   </label>
                   <input
                     type="number"
                     {...register("projectId", { required: true })}
                     className="form-control"
                   />
+                  {/* Valiadting project id */}
+                  {errors.projectId?.type === "required" && (
+                    <p className="text-danger fw-bold ">
+                      projectId is Required
+                    </p>
+                  )}
                 </div>
                 {/* projectStatusUpdate */}
                 <div className="mt-3">
                   <label htmlFor="projectStatusUpdate" className="form-label">
-                    Project Status Update
+                    Project Status Update<span className="text-danger"> *</span>
                   </label>
                   <textarea
-                    rows="3"
+                    rows="4"
                     {...register("projectStatusUpdate")}
                   ></textarea>
+                  {/* Valiadting project id */}
+                  {errors.projectStatusUpdate?.type === "required" && (
+                    <p className="text-danger fw-bold ">
+                      Status Update is Required
+                    </p>
+                  )}
                 </div>
                 {/*  scheduleStatus */}
                 <div className="mt-3">
                   <label htmlFor="scheduleStatus" className="form-label">
-                    Schedule Status
+                    Schedule Status<span className="text-danger"> *</span>
                   </label>
                   <select
                     class="form-select form-select-sm"
@@ -112,7 +114,7 @@ function AddProjectUpdate() {
                 {/* Resourcing Status */}
                 <div className="mt-3">
                   <label htmlFor="resourcingStatus" className="form-label">
-                    Resourcing Status
+                    Resourcing Status<span className="text-danger"> *</span>
                   </label>
                   <select
                     class="form-select form-select-sm"
@@ -132,7 +134,7 @@ function AddProjectUpdate() {
                 {/* Quality  Status */}
                 <div className="mt-3">
                   <label htmlFor="qualityStatus" className="form-label">
-                    Quality Status
+                    Quality Status <span className="text-danger"> *</span>
                   </label>
                   <select
                     class="form-select form-select-sm"
@@ -154,6 +156,7 @@ function AddProjectUpdate() {
                     className="form-label"
                   >
                     Waiting For Client Inputs
+                    <span className="text-danger"> *</span>
                   </label>
                   <select
                     class="form-select form-select-sm"
@@ -170,13 +173,16 @@ function AddProjectUpdate() {
                 {/* Update On */}
                 <div className="mt-3">
                   <label htmlFor="updatedOn" className="form-label">
-                    updated On
+                    updated On<span className="text-danger"> *</span>
                   </label>
                   <input
                     type="date"
                     {...register("updatedOn")}
                     className="form-control"
                   ></input>
+                  {errors.updatedOn?.type === "required" && (
+                    <p className="text-danger fw-bold ">Choose the Date</p>
+                  )}
                 </div>
               </div>
               {/* Submit Button */}

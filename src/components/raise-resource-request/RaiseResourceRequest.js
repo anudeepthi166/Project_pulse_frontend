@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 
 function RaiseResourceRequest() {
-  console.log("RaiseResourceRequest");
   let {
     register,
     handleSubmit,
@@ -22,16 +21,16 @@ function RaiseResourceRequest() {
   const onFormSubmit = async (projectObj) => {
     //get token
     let token = sessionStorage.getItem("token");
-    console.log(userObj.email);
+
     let body = projectObj;
     projectObj.requestRaisedBy = userObj.email;
     try {
       let response = await axios.post(
-        `http://localhost:4000/pulse/projectManager/${userObj.email}/projectId/${projectObj.projectId}/resourceRequest`,
+        `http://localhost:4000/pulse/gdoHead//${userObj.email}/projectId/${projectObj.projectId}/resourceRequest`,
         projectObj,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      console.log(response);
+
       if (response.data.payload) {
         setRaised(
           `Resource Request Raised by ${projectObj.requestRaisedBy} reagarding ${projectObj.resourceDesc}`
@@ -64,15 +63,18 @@ function RaiseResourceRequest() {
               {...register("projectId", { required: true })}
               className="form-control"
             />
-            {/* {Validations} */}
-            {errors.projectId?.type === "required" && (
-              <p className="text-danger fw-bold">Project id is required</p>
-            )}
+            {/* <select
+              class="form-select form-select-sm"
+              aria-label=".form-select-sm "
+              {...register("projectId")}
+            ></select> */}
+
+            {}
           </div>
           {/* Resource Request  desc*/}
           <div className="mt-3">
             <label htmlFor="resourceDesc" className="form-label">
-              Description
+              Description <span className="text-danger"> *</span>
             </label>
             <input
               type="text"

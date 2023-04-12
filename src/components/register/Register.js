@@ -9,10 +9,12 @@ import "./Register.css";
 function Register() {
   //state from redux
   let { loginStatus } = useSelector((state) => state.login);
-  let [status, setStatus] = useState(loginStatus);
+
   //state for invalid username or password
   let [error, setError] = useState("");
+
   let [result, getResult] = useState();
+  let [status, setStatus] = useState();
   //navigate
   let navigate = useNavigate();
   //useForm hook
@@ -25,23 +27,26 @@ function Register() {
   //onForm Submit
   const onFormSubmit = async (userObj) => {
     getResult(false);
-    console.log(userObj);
+
     try {
+      //api call to sign up
       let user = await axios.post(
         `http://localhost:4000/pulse/employee/${userObj.email}/register`,
         userObj
       );
-      console.log("user Response", user);
 
+      // successfully registerd
       if (user.status === 201) {
         getResult(true);
         setError("");
         navigate("/login");
+      } else {
+        throw new Error(user.data.message);
       }
     } catch (err) {
-      setError(err.response.data.message);
+      // some error occurred
+      setError(err.message);
       getResult(true);
-      console.log(error);
     }
   };
 
@@ -54,11 +59,14 @@ function Register() {
   //console.log(errors);
   return (
     <div>
+      {/* NavBar */}
       <div>
         <NavBar />
       </div>
       <div className="container mx-auto mt-5 ">
+        {/* heading */}
         <p className="text-center register-heading">Sign Up</p>
+        {/* Spinners */}
         <div className="row mx-auto">
           {result === false && (
             <div className=" spinner-border text-success mx-auto" role="status">
@@ -66,6 +74,7 @@ function Register() {
             </div>
           )}
         </div>
+        {/* displaying error messages */}
         {error && <p className="text-danger fw-bold text-center">{error}</p>}
 
         <div className="col-10 col-sm-7 col-md-5 mx-auto mt-3 register-form p-5">
@@ -74,7 +83,7 @@ function Register() {
             {/*Email  */}
             <div className="mt-2">
               <label htmlFor="email" className="form-label">
-                Email
+                Email<span className="text-danger"> *</span>
               </label>
               <input
                 type="text"
@@ -90,7 +99,7 @@ function Register() {
             {/*name  */}
             <div className="mt-2">
               <label htmlFor="employeeName" className="form-label">
-                Name
+                Name <span className="text-danger"> *</span>
               </label>
               <input
                 type="text"
@@ -106,7 +115,7 @@ function Register() {
             {/*Password  */}
             <div className="mt-2">
               <label htmlFor="password" className="form-label">
-                Password
+                Password <span className="text-danger"> *</span>
               </label>
               <input
                 type="password"
@@ -114,7 +123,7 @@ function Register() {
                 placeholder="Enter your Password here ..."
                 className="form-control"
               />
-              {/* Valiadting Email */}
+              {/* Valiadting Password */}
               {errors.password?.type === "required" && (
                 <p className="text-danger fw-bold ">Password is Required</p>
               )}
