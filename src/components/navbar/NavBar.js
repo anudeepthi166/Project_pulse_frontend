@@ -7,7 +7,7 @@ function NavBar() {
     <div className=" mb-3 navigation-bar ">
       <div className="container">
         <ul className="nav justify-content-end">
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <NavLink
               className={({ isActive }) =>
                 isActive ? "active nav-link nav-bar" : "inactive nav-link"
@@ -16,7 +16,7 @@ function NavBar() {
             >
               Home
             </NavLink>
-          </li>
+          </li> */}
           <li className="nav-item">
             <NavLink
               className={({ isActive }) =>
